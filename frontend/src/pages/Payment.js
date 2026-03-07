@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -18,15 +18,6 @@ const Payment = () => {
   const [processing, setProcessing] = useState(false);
   // const [showSummary, setShowSummary] = useState(true);
   const [paymentGateway, setPaymentGateway] = useState('razorpay');
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      return;
-    }
-    fetchBookingDetails();
-    loadPaymentScripts();
-  }, [bookingId, isAuthenticated, fetchBookingDetails, navigate]);
 
   const fetchBookingDetails = useCallback(async () => {
     try {
@@ -58,6 +49,15 @@ const Payment = () => {
     cashfreeScript.async = true;
     document.body.appendChild(cashfreeScript);
   };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+    fetchBookingDetails();
+    loadPaymentScripts();
+  }, [bookingId, isAuthenticated, fetchBookingDetails, navigate]);
 
   const handlePayment = async () => {
     setProcessing(true);

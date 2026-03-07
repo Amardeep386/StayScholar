@@ -8,7 +8,6 @@ const NotificationContext = createContext();
 export const NotificationProvider = ({ children }) => {
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
-    const [loading, setLoading] = useState(false);
     const { isAuthenticated, token } = useContext(AuthContext);
 
     const markAsRead = useCallback(async (id) => {
@@ -104,7 +103,6 @@ export const NotificationProvider = ({ children }) => {
         <NotificationContext.Provider value={{
             notifications,
             unreadCount,
-            loading,
             fetchNotifications,
             markAsRead,
             markAllAsRead

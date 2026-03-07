@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -43,7 +43,6 @@ const PaymentCallback = () => {
                 console.error('Verification error:', error);
                 toast.error(error.response?.data?.message || 'Failed to verify payment');
             } finally {
-                setLoading(false);
                 navigate('/bookings');
             }
         };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Accommodations.css';
@@ -19,11 +19,32 @@ const Accommodations = () => {
   });
   const debounceTimer = useRef(null);
 
+  const fetchAccommodations = useCallback(async (isInitial = false) => {
+    if (isInitial) setInitialLoading(true);
+    else setResultsLoading(true);
+
+    try {
+      const params = new URLSearchParams();
+      Object.keys(filters).forEach(key => {
+        if (filters[key]) {
+          params.append(key, filters[key]);
+        }
+      });
+
+      const response = await axios.get(`${API_URL}/accommodations?${params}`);
+      setAccommodations(response.data.data);
+    } catch (error) {
+      console.error('Error fetching accommodations:', error);
+    } finally {
+      setInitialLoading(false);
+      setResultsLoading(false);
+    }
+  }, [filters]);
+
   useEffect(() => {
     // Initial fetch on mount
     fetchAccommodations(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchAccommodations]);
 
   useEffect(() => {
     // Skip debounce on initial render as we already fired initial fetch
@@ -44,29 +65,7 @@ const Accommodations = () => {
         clearTimeout(debounceTimer.current);
       }
     };
-  }, [filters]);
-
-  const fetchAccommodations = async (isInitial = false) => {
-    if (isInitial) setInitialLoading(true);
-    else setResultsLoading(true);
-
-    try {
-      const params = new URLSearchParams();
-      Object.keys(filters).forEach(key => {
-        if (filters[key]) {
-          params.append(key, filters[key]);
-        }
-      });
-
-      const response = await axios.get(`${API_URL}/accommodations?${params}`);
-      setAccommodations(response.data.data);
-    } catch (error) {
-      console.error('Error fetching accommodations:', error);
-    } finally {
-      setInitialLoading(false);
-      setResultsLoading(false);
-    }
-  };
+  }, [filters, initialLoading, fetchAccommodations]);
 
 
   const handleFilterChange = (e) => {
