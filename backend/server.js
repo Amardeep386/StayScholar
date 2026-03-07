@@ -58,12 +58,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/stayschol
     process.exit(1);
   });
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
-
-// Added comment to force server restart and reload .env variables
+// Export for Vercel
+module.exports = app;
 
