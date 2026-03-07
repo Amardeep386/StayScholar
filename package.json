@@ -7,13 +7,18 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd backend && npm run dev",
     "client": "cd frontend && npm start",
+    "build": "cd frontend && npm install && npm run build",
     "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install"
   },
-  "keywords": ["student", "accommodation", "housing", "booking"],
+  "keywords": [
+    "student",
+    "accommodation",
+    "housing",
+    "booking"
+  ],
   "author": "Amardeep Shah",
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
   }
 }
-
