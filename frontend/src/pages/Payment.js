@@ -6,8 +6,8 @@ import AuthContext from '../context/AuthContext';
 import './Payment.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
-const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_11111111111111';
-const CASHFREE_APP_ID = process.env.REACT_APP_CASHFREE_APP_ID || '';
+// const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID || 'rzp_test_11111111111111';
+// const CASHFREE_APP_ID = process.env.REACT_APP_CASHFREE_APP_ID || '';
 
 const Payment = () => {
   const { bookingId } = useParams();
@@ -16,7 +16,7 @@ const Payment = () => {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
-  const [showSummary, setShowSummary] = useState(true);
+  // const [showSummary, setShowSummary] = useState(true);
   const [paymentGateway, setPaymentGateway] = useState('razorpay');
 
   useEffect(() => {
@@ -181,7 +181,7 @@ const Payment = () => {
   const handleRazorpayPaymentSuccess = async (response) => {
     try {
       // Verify payment on backend
-      const verifyResponse = await axios.post(
+      await axios.post(
         `${API_URL}/bookings/${bookingId}/payment/verify`,
         {
           razorpay_order_id: response.razorpay_order_id,

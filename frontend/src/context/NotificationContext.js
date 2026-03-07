@@ -83,23 +83,6 @@ export const NotificationProvider = ({ children }) => {
         }
     }, [isAuthenticated, fetchNotifications]);
 
-    const markAsRead = async (id) => {
-        try {
-            const res = await axios.patch(
-                `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/notifications/${id}/read`,
-                {},
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            if (res.data.success) {
-                setNotifications(prev =>
-                    prev.map(n => n._id === id ? { ...n, isRead: true } : n)
-                );
-                setUnreadCount(prev => Math.max(0, prev - 1));
-            }
-        } catch (error) {
-            console.error('Mark as read error:', error);
-        }
-    };
 
     const markAllAsRead = async () => {
         try {

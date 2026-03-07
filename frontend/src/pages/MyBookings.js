@@ -8,7 +8,7 @@ import './MyBookings.css';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 const MyBookings = () => {
-  const { user, isOwner } = useContext(AuthContext);
+  const { isOwner } = useContext(AuthContext);
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
