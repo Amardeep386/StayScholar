@@ -1,3 +1,4 @@
+```javascript
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -23,7 +24,7 @@ import CreateAccommodation from './pages/CreateAccommodation';
 import Payment from './pages/Payment';
 import PaymentCallback from './pages/PaymentCallback';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import SplashScreen from './components/SplashScreen';
 import './App.css';
 
