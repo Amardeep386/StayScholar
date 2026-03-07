@@ -26,9 +26,9 @@ const Payment = () => {
     }
     fetchBookingDetails();
     loadPaymentScripts();
-  }, [bookingId, isAuthenticated]);
+  }, [bookingId, isAuthenticated, fetchBookingDetails, navigate]);
 
-  const fetchBookingDetails = async () => {
+  const fetchBookingDetails = useCallback(async () => {
     try {
       const response = await axios.get(`${API_URL}/bookings/${bookingId}`, {
         headers: {
@@ -43,7 +43,7 @@ const Payment = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [bookingId, navigate]);
 
   const loadPaymentScripts = () => {
     // Load Razorpay script

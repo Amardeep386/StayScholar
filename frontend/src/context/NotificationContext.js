@@ -11,6 +11,24 @@ export const NotificationProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const { isAuthenticated, token } = useContext(AuthContext);
 
+    const markAsRead = useCallback(async (id) => {
+        try {
+            const res = await axios.patch(
+                `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/notifications/${id}/read`,
+                {},
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            if (res.data.success) {
+                setNotifications(prev =>
+                    prev.map(n => n._id === id ? { ...n, isRead: true } : n)
+                );
+                setUnreadCount(prev => Math.max(0, prev - 1));
+            }
+        } catch (error) {
+            console.error('Mark as read error:', error);
+        }
+    }, [token]);
+
     const fetchNotifications = useCallback(async () => {
         if (!isAuthenticated || !token) return;
 
@@ -33,8 +51,12 @@ export const NotificationProvider = ({ children }) => {
                                     markAsRead(notif._id);
                                     window.location.href = notif.link || '#';
                                 },
+                                hideProgressBar: false,
+                                closeOnClick: true,
                                 pauseOnHover: true,
                                 draggable: true,
+                                progress: undefined,
+                                theme: "colored",
                                 icon: "💬"
                             });
                         }
@@ -47,7 +69,7 @@ export const NotificationProvider = ({ children }) => {
         } catch (error) {
             console.error('Fetch notifications error:', error);
         }
-    }, [isAuthenticated, token, notifications]);
+    }, [isAuthenticated, token, notifications, markAsRead]);
 
     useEffect(() => {
         if (isAuthenticated) {
