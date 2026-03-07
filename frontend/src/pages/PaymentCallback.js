@@ -8,7 +8,6 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 const PaymentCallback = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const verifyPayment = async () => {
