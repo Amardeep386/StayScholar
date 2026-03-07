@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Background circle for context -->
+  <circle cx="128" cy="128" r="128" fill="#FF8C42" opacity="0.1"/>
+  
+  <!-- Graduation cap (mortarboard) -->
+  <g transform="translate(128, 70)">
+    <!-- Cap base (square) -->
+    <rect x="-45" y="0" width="90" height="8" fill="#FF8C42" rx="2"/>
+    
+    <!-- Cap front face -->
+    <polygon points="-45,8 45,8 35,-25 -35,-25" fill="#FF8C42"/>
+    
+    <!-- Cap left edge -->
+    <polygon points="-45,8 -35,-25 -50,-20 -55,5" fill="#E67C3A"/>
+    
+    <!-- Cap right edge -->
+    <polygon points="45,8 35,-25 50,-20 55,5" fill="#E67C3A"/>
+    
+    <!-- Tassel string -->
+    <line x1="25" y1="8" x2="25" y2="35" stroke="#FF8C42" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- Tassel knot -->
+    <circle cx="25" cy="40" r="4" fill="#FF8C42"/>
+    
+    <!-- Tassel bottom -->
+    <polygon points="25,40 20,55 25,58 30,55" fill="#FF8C42"/>
+  </g>
+  
+  <!-- Building outline -->
+  <g transform="translate(128, 110)">
+    <!-- Building walls -->
+    <rect x="-50" y="0" width="100" height="80" fill="#FF8C42" rx="4"/>
+    
+    <!-- Building left darker edge -->
+    <rect x="-50" y="0" width="4" height="80" fill="#E67C3A" rx="2"/>
+    
+    <!-- Door -->
+    <rect x="-15" y="50" width="30" height="30" fill="#FFFFFF" rx="2"/>
+    <circle cx="-5" cy="65" r="2" fill="#666666"/>
+    
+    <!-- Windows -->
+    <g stroke="#FFFFFF" stroke-width="2" fill="none">
+      <!-- Top left window -->
+      <rect x="-35" y="15" width="14" height="14"/>
+      <line x1="-28" y1="15" x2="-28" y2="29"/>
+      <line x1="-35" y1="22" x2="-21" y2="22"/>
+      
+      <!-- Top right window -->
+      <rect x="21" y="15" width="14" height="14"/>
+      <line x1="28" y1="15" x2="28" y2="29"/>
+      <line x1="21" y1="22" x2="35" y2="22"/>
+      
+      <!-- Middle left window -->
+      <rect x="-35" y="35" width="14" height="14"/>
+      <line x1="-28" y1="35" x2="-28" y2="49"/>
+      <line x1="-35" y1="42" x2="-21" y2="42"/>
+      
+      <!-- Middle right window -->
+      <rect x="21" y="35" width="14" height="14"/>
+      <line x1="28" y1="35" x2="28" y2="49"/>
+      <line x1="21" y1="42" x2="35" y2="42"/>
+    </g>
+  </g>
+</svg>

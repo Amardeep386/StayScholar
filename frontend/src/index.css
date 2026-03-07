@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Brand Colors - Sticking to the identity but refined */
+  --primary-blue: #2563eb;
+  /* Elegant Blue for scholarly feel */
+  --primary-blue-light: #3b82f6;
+  --primary-orange: #f59e0b;
+  /* Refined Amber */
+  --primary-orange-light: #fbbf24;
+  --accent-gold: #fbbf24;
+
+  /* Light Modern Theme Colors */
+  --bg-main: #f8fafc;
+  /* Soft White/Slate Background */
+  --bg-secondary: #ffffff;
+  /* Pure White for contrast */
+  --bg-card: #ffffff;
+  /* Pure White card */
+  --bg-hover: #f1f5f9;
+  /* Soft Hover State */
+  --text-primary: #0f172a;
+  /* Deep Slate Text */
+  --text-secondary: #475569;
+  /* Slate Gray Text */
+  --text-light: #94a3b8;
+  /* Light Slate Text */
+
+  /* Re-defining primary blue as orange to keep StayScholar identity if it was orange */
+  --brand-orange: #ff6b35;
+  --brand-orange-light: #ff8c5a;
+
+  /* Effects - Minimalist Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--primary-blue);
+  line-height: 1.2;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-card);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-blue);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-orange);
+}
+
+/* Leaflet map styles */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Global transitions */
+a,
+button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::selection {
+  background: var(--primary-blue);
+  color: var(--bg-main);
+}
