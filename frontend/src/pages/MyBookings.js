@@ -8,7 +8,8 @@ import './MyBookings.css';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 const MyBookings = () => {
-  const { isOwner } = useContext(AuthContext);
+  const { user, isOwner } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -143,8 +144,26 @@ const MyBookings = () => {
                       >
                         Reject
                       </button>
+                      <button
+                        onClick={() => navigate(`/messages?id=${[user.id, booking.student._id].sort().join('_')}`)}
+                        className="btn btn-outline ml-2"
+                      >
+                        Message Student
+                      </button>
                     </div>
                   )}
+
+                  {isOwner && booking.status !== 'pending' && (
+                    <div className="booking-actions">
+                      <button
+                        onClick={() => navigate(`/messages?id=${[user.id, booking.student._id].sort().join('_')}`)}
+                        className="btn btn-outline"
+                      >
+                        Message Student
+                      </button>
+                    </div>
+                  )}
+
 
                   {!isOwner && booking.status === 'accepted' && booking.paymentStatus === 'pending' && (
                     <div className="booking-actions">

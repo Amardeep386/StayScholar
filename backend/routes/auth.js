@@ -273,5 +273,25 @@ router.get('/me', protect, async (req, res) => {
   }
 });
 
+// @route   GET /api/auth/users/:id
+// @desc    Get user public profile
+// @access  Private
+router.get('/users/:id', protect, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('name avatar email role');
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    res.json({
+      success: true,
+      data: user
+    });
+  } catch (error) {
+    console.error('Get user profile error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 module.exports = router;
+
 

@@ -101,9 +101,18 @@ router.get('/', protect, async (req, res) => {
 // @access  Private
 router.get('/:conversationId', protect, async (req, res) => {
   try {
-    const messages = await Message.find({
-      conversationId: req.params.conversationId
-    })
+    const { conversationId } = req.params;
+    const userId = req.user._id.toString();
+
+    // Check if user is participant of this conversation
+    if (!conversationId.includes(userId)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to view this conversation'
+      });
+    }
+
+    const messages = await Message.find({ conversationId })
       .populate('sender', 'name email avatar')
       .populate('receiver', 'name email avatar')
       .populate('accommodation', 'title type address')

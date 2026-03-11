@@ -45,13 +45,47 @@ const Messages = () => {
 
   // Handle URL parameters for direct conversation access
   useEffect(() => {
+    if (loading) return;
+
     const params = new URLSearchParams(window.location.search);
     const convId = params.get('id');
-    if (convId && conversations.length > 0) {
+
+    if (convId) {
+      // First, try to find in existing conversations
       const conv = conversations.find(c => c.conversationId === convId);
-      if (conv) setSelectedConversation(conv);
+      if (conv) {
+        setSelectedConversation(conv);
+        return;
+      }
+
+      // If not found, it's a new conversation or we are loading for the first time
+      const parts = convId.split('_');
+      const currentUserId = (user?.id || user?._id)?.toString();
+      const otherId = parts.find(p => p !== currentUserId);
+
+      if (otherId) {
+        const fetchRecipient = async () => {
+          try {
+            const res = await axios.get(`${API_URL}/auth/users/${otherId}`);
+            if (res.data.success) {
+              const recipient = res.data.data;
+              const newConv = {
+                conversationId: convId,
+                participants: [recipient],
+                messages: [],
+                lastMessage: null,
+                unreadCount: 0
+              };
+              setSelectedConversation(newConv);
+            }
+          } catch (error) {
+            console.error('Error fetching recipient for new chat:', error);
+          }
+        };
+        fetchRecipient();
+      }
     }
-  }, [conversations]);
+  }, [conversations, user, loading]);
 
   useEffect(() => {
     if (selectedConversation) {
@@ -85,8 +119,9 @@ const Messages = () => {
       await axios.post(`${API_URL}/messages`, {
         receiver: otherUser._id || otherUser.id,
         content: newMessage,
-        accommodation: selectedConversation.messages[0]?.accommodation?._id
+        accommodation: selectedConversation.messages?.[0]?.accommodation?._id
       });
+
 
       setNewMessage('');
       fetchMessages(selectedConversation.conversationId);
@@ -148,9 +183,10 @@ const Messages = () => {
                   {messages.map((msg) => (
                     <div
                       key={msg._id}
-                      className={`message ${msg.sender._id === user?.id ? 'sent' : 'received'
+                      className={`message ${msg.sender._id.toString() === (user?.id || user?._id).toString() ? 'sent' : 'received'
                         }`}
                     >
+
                       <div className="message-content">{msg.content}</div>
                       <div className="message-time">
                         {new Date(msg.createdAt).toLocaleString()}

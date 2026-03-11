@@ -11,9 +11,10 @@ export const NotificationProvider = ({ children }) => {
     const { isAuthenticated, token } = useContext(AuthContext);
 
     const markAsRead = useCallback(async (id) => {
+        const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
         try {
             const res = await axios.patch(
-                `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/notifications/${id}/read`,
+                `${API_URL}/notifications/${id}/read`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -31,8 +32,10 @@ export const NotificationProvider = ({ children }) => {
     const fetchNotifications = useCallback(async () => {
         if (!isAuthenticated || !token) return;
 
+        const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
         try {
-            const res = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/notifications`, {
+            const res = await axios.get(`${API_URL}/notifications`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -84,9 +87,10 @@ export const NotificationProvider = ({ children }) => {
 
 
     const markAllAsRead = async () => {
+        const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
         try {
             const res = await axios.put(
-                `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/notifications/read-all`,
+                `${API_URL}/notifications/read-all`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -98,6 +102,7 @@ export const NotificationProvider = ({ children }) => {
             console.error('Mark all as read error:', error);
         }
     };
+
 
     return (
         <NotificationContext.Provider value={{
