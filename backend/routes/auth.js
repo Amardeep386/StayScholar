@@ -51,39 +51,52 @@ router.put('/update-profile', protect, async (req, res) => {
 // @route   PUT /api/auth/avatar
 // @desc    Update user avatar
 // @access  Private
-router.put('/avatar', protect, upload.single('avatar'), async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: 'Please upload a file' });
+router.put('/avatar', protect, (req, res) => {
+  upload.single('avatar')(req, res, async function (err) {
+    if (err) {
+      if (err instanceof require('multer').MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+          return res.status(400).json({ success: false, message: 'File too large. Max limit is 5MB.' });
+        }
+        return res.status(400).json({ success: false, message: err.message });
+      }
+      return res.status(400).json({ success: false, message: err.message || err });
     }
 
-    const avatarPath = `/uploads/avatars/${req.file.filename}`;
-    const user = await User.findByIdAndUpdate(
-      req.user._id,
-      { avatar: avatarPath },
-      { new: true }
-    );
-
-    res.json({
-      success: true,
-      avatar: avatarPath,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        phone: user.phone,
-        college: user.college,
-        course: user.course,
-        year: user.year,
-        avatar: user.avatar
+    try {
+      if (!req.file) {
+        return res.status(400).json({ success: false, message: 'Please upload a file' });
       }
-    });
-  } catch (error) {
-    console.error('Avatar upload error:', error);
-    res.status(500).json({ success: false, message: 'Server error during upload' });
-  }
+
+      const avatarPath = `/uploads/avatars/${req.file.filename}`;
+      const user = await User.findByIdAndUpdate(
+        req.user._id,
+        { avatar: avatarPath },
+        { new: true }
+      );
+
+      res.json({
+        success: true,
+        avatar: avatarPath,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          phone: user.phone,
+          college: user.college,
+          course: user.course,
+          year: user.year,
+          avatar: user.avatar
+        }
+      });
+    } catch (error) {
+      console.error('Avatar upload error:', error);
+      res.status(500).json({ success: false, message: 'Server error during upload' });
+    }
+  });
 });
+
 
 router.post('/register', [
   body('name').trim().notEmpty().withMessage('Name is required'),
